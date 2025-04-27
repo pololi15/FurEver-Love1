@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "fureverlove.ucb"
-        minSdk = 24
+        minSdk = 34
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -77,6 +77,7 @@ dependencies {
     //serialization
     implementation(libs.kotlinx.serialization.json)
 
+    implementation (libs.androidx.navigation.compose.v272)
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
