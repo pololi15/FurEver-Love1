@@ -29,4 +29,7 @@ class FirebaseAuthRepository : IAuthRepository {
             Result.Error(e.message ?: "Error en registro")
         }
     }
+
+
+
 }
