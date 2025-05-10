@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fureverlove.ucb.auth.AuthScreen
 import fureverlove.ucb.home.HomeUI
+import fureverlove.ucb.registerpet.RegisterPetScreen
 
 @Composable
 fun AppNavigation() {
@@ -28,6 +29,19 @@ fun AppNavigation() {
                 onLogout = {
                     navController.navigate(Screen.AuthScreen.route) {
                         popUpTo(Screen.HomeScreen.route) { inclusive = true }
+                    }
+                },
+                onAddPet = {
+                    navController.navigate(Screen.RegisterPetScreen.route)
+                }
+            )
+        }
+
+        composable(route = Screen.RegisterPetScreen.route) {
+            RegisterPetScreen(
+                onSuccess = {
+                    navController.navigate(Screen.HomeScreen.route) {
+                        popUpTo(Screen.RegisterPetScreen.route) { inclusive = true }
                     }
                 }
             )

@@ -2,6 +2,7 @@ package fureverlove.ucb.di
 
 import com.ucb.data.auth.IAuthRepository
 import com.ucb.framework.auth.FirebaseAuthRepository
+import com.ucb.framework.firestore.FirestoreMascotaRepository
 import com.ucb.usecases.LoginUser
 import com.ucb.usecases.RegisterUser
 import dagger.Module
@@ -25,4 +26,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRegisterUser(repo: IAuthRepository): RegisterUser = RegisterUser(repo)
+
+    @Provides
+    @Singleton
+    fun provideFirestoreMascotaRepo(): FirestoreMascotaRepository = FirestoreMascotaRepository()
+
 }

@@ -1,5 +1,9 @@
 [versions]
 agp = "8.7.1"
+firebaseAnalyticsKtx = "21.5.0"
+firebaseAuth = "22.1.2"
+firebaseBom = "33.12.0"
+googleFirebaseFirestoreKtx = "24.10.1"
 kotlin = "2.0.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -9,6 +13,8 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 appcompat = "1.7.0"
+lifecycleViewmodelKtx = "2.6.2"
+lifecycleRuntimeKtxVersion = "2.6.2"
 material = "1.12.0"
 jetbrainsKotlinJvm = "2.0.0"
 coil = "2.7.0"
@@ -26,10 +32,18 @@ detekt = "1.23.8"
 kotlinx-serialization = "1.7.3"
 room = "2.6.1"
 firebaseAuthKtx = "23.2.0"
+firebaseFirestoreKtx = "25.1.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-runtime-ktx-v262 = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtxVersion" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-navigation-compose-v272 = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalyticsKtx" }
+firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+google-firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "googleFirebaseFirestoreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -86,6 +100,7 @@ hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", v
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 
 
 

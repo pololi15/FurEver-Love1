@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,16 +81,20 @@ dependencies {
     implementation (libs.androidx.navigation.compose.v272)
 
     // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    implementation(libs.firebase.bom)
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
-    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.firebase.analytics)
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
-    implementation ("com.google.firebase:firebase-auth:22.1.2")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation (libs.firebase.auth)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.runtime.ktx.v262)
 
+    implementation(libs.firebase.analytics.ktx)
+
+
+    implementation (libs.google.firebase.firestore.ktx)
 
     implementation(project(":usecases"))
     implementation(project(":domain"))
