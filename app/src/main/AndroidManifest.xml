@@ -20,10 +20,10 @@
         android:theme="@style/Theme.FurEverLove"
         tools:targetApi="31">
         <activity
+            android:theme="@style/SplashTheme"
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.FurEverLove">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

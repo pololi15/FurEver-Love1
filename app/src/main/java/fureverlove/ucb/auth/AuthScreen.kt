@@ -21,7 +21,6 @@ fun AuthScreen(
     var isLoginMode by remember { mutableStateOf(true) }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
     val state by viewModel.state.collectAsState()
 
     // Escucha cambios en el estado y muestra notificaciones
