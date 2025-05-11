@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fureverlove.ucb.auth.AuthScreen
-import fureverlove.ucb.home.HomeUI
+import fureverlove.ucb.home.HomeScreen
 
 @Composable
 fun AppNavigation() {
@@ -24,11 +24,15 @@ fun AppNavigation() {
         }
 
         composable(route = Screen.HomeScreen.route) {
-            HomeUI(
+            HomeScreen(
                 onLogout = {
                     navController.navigate(Screen.AuthScreen.route) {
                         popUpTo(Screen.HomeScreen.route) { inclusive = true }
                     }
+                },
+                onCategoryClick = { category ->
+                    // imprimir las nueva pantalla
+                    println("Categoría seleccionada: $category")
                 }
             )
         }
