@@ -41,3 +41,16 @@ fun PetCard(mascota: Mascota) {
         }
     }
 }
+@Composable
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true)
+fun PetCardPreview() {
+    PetCard(
+        mascota = Mascota(
+            nombre = "Luna",
+            edad = "2 años",
+            especie = "Perro",
+            ubicacion = "La Paz",
+            fotoUrl = "https://cdn2.thedogapi.com/images/B1Edfl9NX.jpg"
+        )
+    )
+}

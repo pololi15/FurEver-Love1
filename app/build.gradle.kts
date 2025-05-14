@@ -96,6 +96,13 @@ dependencies {
 
     implementation (libs.google.firebase.firestore.ktx)
 
+    implementation(libs.androidx.core.splashscreen)
+
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.firebase.storage.ktx)
+
+
+
     implementation(project(":usecases"))
     implementation(project(":domain"))
     implementation(project(":data"))
