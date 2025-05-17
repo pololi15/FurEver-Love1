@@ -26,12 +26,12 @@ fun HomeScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            // Encabezado
+            // 1. Encabezado con botón de logout
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(" Cochabamba, Bolivia", fontSize = 14.sp)
+                Text("Cochabamba, Bolivia", fontSize = 14.sp)
                 Button(onClick = {
                     FirebaseAuth.getInstance().signOut()
                     onLogout()
@@ -42,7 +42,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Banner
+            // 2. Banner promocional
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -59,7 +59,7 @@ fun HomeScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
-                        onClick = { /* Aquí puedes poner navegación a pantalla de adopción */ },
+                        onClick = { /* Navegar a pantalla de adopción */ },
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD600))
                     ) {
                         Text("DAR EN ADOPCIÓN")
@@ -69,28 +69,53 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Categorías
-            Text("Categorías", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(12.dp))
+            // 3. Sección de categorías (equivalente a HomeUI)
+            Text("Categorías",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Button(
                     onClick = { onCategoryClick("canes") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF50E3C2)),
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF50E3C2)
+                    ),
+                    shape = RoundedCornerShape(16.dp)
                 ) {
                     Text("CANES")
                 }
 
+                Spacer(modifier = Modifier.width(8.dp))
+
                 Button(
                     onClick = { onCategoryClick("gatos") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726)),
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFFFA726)
+                    ),
+                    shape = RoundedCornerShape(16.dp)
                 ) {
                     Text("GATOS")
                 }
+            }
+        }
+    }
+}
+@Composable
+fun HomeUI(onCategoryClick: (String) -> Unit) {
+    Column(Modifier.fillMaxSize().padding(16.dp)) {
+        Text("Categorías", style = MaterialTheme.typography.titleLarge)
+        Spacer(Modifier.height(8.dp))
+
+        Row {
+            Button(onClick = { onCategoryClick("canes") }, modifier = Modifier.weight(1f)) {
+                Text("CANES")
+            }
+            Spacer(Modifier.width(8.dp))
+            Button(onClick = { onCategoryClick("gatos") }, modifier = Modifier.weight(1f)) {
+                Text("GATOS")
             }
         }
     }
