@@ -10,14 +10,14 @@ import fureverlove.ucb.navigation.AppNavigation
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.SplashTheme)
+        setTheme(R.style.Theme_FurEverLove)
         super.onCreate(savedInstanceState)
         setContent {
             FurEverLoveTheme {
                 AppNavigation()
             }
         }
-        window.setBackgroundDrawable(null)
-
     }
 }
+
+
