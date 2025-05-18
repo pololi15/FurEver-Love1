@@ -1,11 +1,9 @@
-package com.ucb.domain.model
+package com.ucb.framework.dto
 
-data class Mascota(
-    val id: String = "",
+data class MascotaDTO(
     val nombre: String = "",
     val edad: String = "",
     val especie: String = "",
     val ubicacion: String = "",
     val fotoUrl: String = ""
-
 )

@@ -1,6 +1,7 @@
 package fureverlove.ucb.registerpet
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -19,13 +20,17 @@ import androidx.compose.ui.graphics.Color
 
 
 @Composable
-fun RegisterPetScreen(viewModel: RegisterPetViewModel = hiltViewModel(), onSuccess: () -> Unit) {
+fun RegisterPetScreen(
+    viewModel: RegisterPetViewModel = hiltViewModel(),
+    onSuccess: () -> Unit
+) {
     var nombre by remember { mutableStateOf("") }
     var edad by remember { mutableStateOf("") }
     var especie by remember { mutableStateOf("") }
     var ubicacion by remember { mutableStateOf("") }
     val imageUri = remember { mutableStateOf<Uri?>(null) }
     val mensaje by viewModel.mensaje.collectAsState()
+    val estado by viewModel.estado.collectAsState()
     val context = LocalContext.current
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -41,6 +46,7 @@ fun RegisterPetScreen(viewModel: RegisterPetViewModel = hiltViewModel(), onSucce
         ubicacion = ubicacion,
         imageUri = imageUri.value,
         mensaje = mensaje,
+        estado = estado,
         onNombreChange = { nombre = it },
         onEdadChange = { edad = it },
         onEspecieChange = { especie = it },
@@ -53,9 +59,11 @@ fun RegisterPetScreen(viewModel: RegisterPetViewModel = hiltViewModel(), onSucce
                     edad = edad,
                     especie = especie,
                     ubicacion = ubicacion,
-                    fotoUrl = "" // Se actualiza en el ViewModel
+                    fotoUrl = "" // Se actualizará luego
                 )
                 viewModel.subirImagenYGuardar(imageUri.value!!, mascota, context, onSuccess)
+            } else {
+                Toast.makeText(context, "Completa todos los campos", Toast.LENGTH_SHORT).show()
             }
         }
     )
@@ -69,6 +77,7 @@ fun RegisterPetScreenContent(
     ubicacion: String,
     imageUri: Uri?,
     mensaje: String,
+    estado: RegisterPetViewModel.RegisterState,
     onNombreChange: (String) -> Unit,
     onEdadChange: (String) -> Unit,
     onEspecieChange: (String) -> Unit,
@@ -114,6 +123,20 @@ fun RegisterPetScreenContent(
                 Text("Guardar Mascota")
             }
 
+            when (estado) {
+                is RegisterPetViewModel.RegisterState.Loading -> {
+                    Spacer(Modifier.height(16.dp))
+                    CircularProgressIndicator()
+                }
+                is RegisterPetViewModel.RegisterState.Error -> {
+                    Text((estado as RegisterPetViewModel.RegisterState.Error).mensaje, color = Color.Red)
+                }
+                is RegisterPetViewModel.RegisterState.Success -> {
+                    Text("Registro exitoso", color = Color(0xFF4CAF50))
+                }
+                else -> {}
+            }
+
             if (mensaje.isNotBlank()) {
                 Spacer(Modifier.height(10.dp))
                 Text(mensaje, color = MaterialTheme.colorScheme.primary)
@@ -123,6 +146,7 @@ fun RegisterPetScreenContent(
 }
 
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun RegisterPetScreenPreview() {
@@ -140,4 +164,4 @@ fun RegisterPetScreenPreview() {
         onSelectImageClick = {},
         onGuardarClick = {}
     )
-}
+}*/
