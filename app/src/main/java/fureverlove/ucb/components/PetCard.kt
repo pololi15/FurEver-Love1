@@ -37,6 +37,7 @@ fun PetCard(mascota: Mascota) {
                 Text("Edad: ${mascota.edad}")
                 Text("Especie: ${mascota.especie}")
                 Text("Ubicación: ${mascota.ubicacion}")
+                Text("Género: ${mascota.genero}")
             }
         }
     }

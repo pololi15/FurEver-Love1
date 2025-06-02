@@ -10,7 +10,8 @@ fun MascotaDTO.toDomain(): Mascota {
         especie = especie,
         ubicacion = ubicacion,
         fotoUrl = fotoUrl,
-        id = ""
+        id = "",
+        genero = genero
     )
 }
 fun Mascota.toEntity(): Mascota {
@@ -19,7 +20,8 @@ fun Mascota.toEntity(): Mascota {
         edad = edad,
         especie = especie,
         ubicacion = ubicacion,
-        fotoUrl = fotoUrl
+        fotoUrl = fotoUrl,
+        genero = genero
     )
 }
 

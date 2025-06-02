@@ -22,4 +22,9 @@ class FirestoreMascotaRepository @Inject constructor(): IMascotaRepository {
             it.toObject(Mascota::class.java)?.copy(id = it.id)
         }
     }
+    // Metodo para obtener una mascota por ID
+     override suspend fun obtenerMascota(id: String): Mascota? {
+        return mascotasRef.document(id).get().await().toObject(Mascota::class.java)
+    }
+
 }

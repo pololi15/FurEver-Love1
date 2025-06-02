@@ -5,5 +5,6 @@ data class MascotaDTO(
     val edad: String = "",
     val especie: String = "",
     val ubicacion: String = "",
-    val fotoUrl: String = ""
+    val fotoUrl: String = "",
+    val genero: String = ""
 )

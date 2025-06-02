@@ -32,6 +32,7 @@ fun RegisterPetScreen(
     val mensaje by viewModel.mensaje.collectAsState()
     val estado by viewModel.estado.collectAsState()
     val context = LocalContext.current
+    val genero by remember { mutableStateOf("") }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -44,6 +45,7 @@ fun RegisterPetScreen(
         edad = edad,
         especie = especie,
         ubicacion = ubicacion,
+        genero = genero,
         imageUri = imageUri.value,
         mensaje = mensaje,
         estado = estado,
@@ -59,7 +61,8 @@ fun RegisterPetScreen(
                     edad = edad,
                     especie = especie,
                     ubicacion = ubicacion,
-                    fotoUrl = "" // Se actualizará luego
+                    fotoUrl = "", // Se actualizará luego
+                    genero = genero
                 )
                 viewModel.subirImagenYGuardar(imageUri.value!!, mascota, context, onSuccess)
             } else {
@@ -75,6 +78,7 @@ fun RegisterPetScreenContent(
     edad: String,
     especie: String,
     ubicacion: String,
+    genero: String,
     imageUri: Uri?,
     mensaje: String,
     estado: RegisterPetViewModel.RegisterState,
@@ -99,6 +103,7 @@ fun RegisterPetScreenContent(
             TextField(value = edad, onValueChange = onEdadChange, label = { Text("Edad") })
             TextField(value = especie, onValueChange = onEspecieChange, label = { Text("Especie") })
             TextField(value = ubicacion, onValueChange = onUbicacionChange, label = { Text("Ubicación") })
+            TextField(value = genero, onValueChange = { }, label = { Text("Género") })
 
             Spacer(Modifier.height(8.dp))
 
