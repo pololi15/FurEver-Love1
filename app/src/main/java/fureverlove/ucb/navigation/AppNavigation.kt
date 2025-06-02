@@ -5,12 +5,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.*
+import com.ucb.domain.model.Mascota
 import fureverlove.ucb.auth.AuthScreen
 import fureverlove.ucb.favorites.FavoritesScreen
 import fureverlove.ucb.home.CategoryScreen
 import fureverlove.ucb.home.HomeScreen
-import fureverlove.ucb.profile.ProfileScreen
+import fureverlove.ucb.home.model.Owner
+import fureverlove.ucb.profile.PetProfileScreen
+import fureverlove.ucb.registerpet.RegisterPetScreen
 import fureverlove.ucb.splash.SplashScreen
+
 
 @Composable
 fun AppNavigation() {
@@ -57,6 +61,7 @@ fun AppNavigation() {
 
             composable(Screen.HomeScreen.route) {
                 HomeScreen(
+                    navController = navController, //  Se pasa navController
                     onLogout = {
                         navController.navigate(Screen.AuthScreen.route) {
                             popUpTo(Screen.HomeScreen.route) { inclusive = true }
@@ -71,20 +76,32 @@ fun AppNavigation() {
             composable(Screen.Favorites.route) {
                 FavoritesScreen()
             }
-
-            composable(Screen.Profile.route) {
-                ProfileScreen()
-            }
-
-            composable(Screen.Category.route) { backStackEntry ->
-                val category = backStackEntry.arguments?.getString("category") ?: "canes"
-                CategoryScreen(
-                    category = category,
-                    onBack = { navController.popBackStack() }
+            composable(route = Screen.RegisterPetScreen.route) {
+                RegisterPetScreen(
+                    onSuccess = {
+                        navController.navigate(Screen.HomeScreen.route) {
+                            popUpTo(Screen.RegisterPetScreen.route) { inclusive = true }
+                        }
+                    }
                 )
             }
+            composable(Screen.Profile.route) { backStackEntry ->
+                val pet = navController.previousBackStackEntry
+                    ?.savedStateHandle?.get<Mascota>("pet")
+                val owner = navController.previousBackStackEntry
+                    ?.savedStateHandle?.get<Owner>("owner")
+
+                if (pet != null && owner != null) {
+                    PetProfileScreen(pet = pet, owner = owner)
+                } else {
+                    // Puedes mostrar una pantalla de error o regresar
+                    Text("No se pudieron cargar los datos del perfil.")
+                }
+            }
+
+            //  Solo una definición para la ruta Category
             composable(Screen.Category.route) { backStackEntry ->
-                val category = backStackEntry.arguments?.getString("category") ?: "gatos"
+                val category = backStackEntry.arguments?.getString("category") ?: "canes"
                 CategoryScreen(
                     category = category,
                     onBack = { navController.popBackStack() }

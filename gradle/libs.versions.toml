@@ -1,11 +1,17 @@
 [versions]
 agp = "8.7.1"
+firebaseAnalyticsKtx = "21.5.0"
+firebaseAuth = "22.1.2"
+firebaseBom = "33.12.0"
+googleFirebaseFirestoreKtx = "24.10.1"
 kotlin = "2.0.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.6.1"
+lifecycleViewmodelKtx = "2.6.1"
+lifecycleRuntimeKtxVersion = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 appcompat = "1.7.0"
@@ -27,13 +33,29 @@ kotlinx-serialization = "1.7.3"
 room = "2.6.1"
 firebaseAuthKtx = "23.2.0"
 coreSplashscreen = "1.0.1"
+firebaseFirestoreKtx = "25.1.4"
+firebaseStorageKtx = "21.0.2"
+firebaseAuthKtxVersion = "23.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-runtime-ktx-v262 = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtxVersion" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-navigation-compose-v272 = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
+
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalyticsKtx" }
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalyticsKtx" }
+firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+google-firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "googleFirebaseFirestoreKtx" }
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -47,48 +69,49 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
-
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose" }
 androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtimeLivedata" }
-coil = { group= "io.coil-kt", name="coil-compose", version.ref="coil"}
-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref="hilt"}
-hilt-compiler = {group = "com.google.dagger", name = "hilt-compiler", version.ref="hilt"}
-hilt-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref="hilt"}
+
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavViewModel" }
+
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
-
-#networking
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref= "retrofit"}
-moshi = { group = "com.squareup.moshi", name = "moshi", version.ref= "moshi"}
-moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
-moshi-ksp = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref= "moshi"}
-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref= "retrofit"}
-retrofit-coroutines = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlin-coroutines-adapter", version.ref= "retrofitCoroutines"}
-
-leakcanary-android = "com.squareup.leakcanary:leakcanary-android:2.14"
-chucker = "com.github.chuckerteam.chucker:library:4.1.0"
-chucker-no-op = "com.github.chuckerteam.chucker:library-no-op:4.1.0"
-
-#room bundle
-room-runtime = {module="androidx.room:room-runtime", version.ref="room"}
-room-ktx = {module ="androidx.room:room-ktx", version.ref="room"}
-room-rxjava2 = { module="androidx.room:room-rxjava2", version.ref="room"}
-room-rxjava3 = { module="androidx.room:room-rxjava3", version.ref="room"}
-room-guava = {module="androidx.room:room-guava", version.ref="room"}
-room-paging = { module="androidx.room:room-paging", version.ref="room"}
-
-room-testing = { module="androidx.room:room-testing", version.ref="room"}
-
-room-compiler = { group="androidx.room", name="room-compiler", version.ref="room"}
-
-#navigation
-navigation = { group="androidx.navigation", name="navigation-compose", version.ref="navVersion"}
-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref="hiltNavViewModel"}
-
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
-androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 
+# Networking
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
+moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+moshi-ksp = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi" }
+retrofit-coroutines = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlin-coroutines-adapter", version.ref = "retrofitCoroutines" }
+
+# Debug
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version = "2.14" }
+chucker = { module = "com.github.chuckerteam.chucker:library", version = "4.1.0" }
+chucker-no-op = { module = "com.github.chuckerteam.chucker:library-no-op", version = "4.1.0" }
+
+# Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "room" }
+room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "room" }
+room-guava = { module = "androidx.room:room-guava", version.ref = "room" }
+room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
+room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+# Navigation
+navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navVersion" }
+
+# Splashscreen
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+google-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtxVersion" }
 
 
 
@@ -101,6 +124,7 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrai
 
 ksp = { id = "com.google.devtools.ksp", version.ref="ksp"}
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref="kotlin"}
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt"}
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
