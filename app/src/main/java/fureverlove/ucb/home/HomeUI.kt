@@ -21,7 +21,8 @@ import fureverlove.ucb.components.PetCard
 fun HomeUI(
     viewModel: HomeViewModel = hiltViewModel(),
     onLogout: () -> Unit,
-    onAddPet: () -> Unit
+    onAddPet: () -> Unit,
+    onPetClick: (String) -> Unit
 ) {
     val mascotas by viewModel.mascotas.collectAsState()
 
@@ -53,7 +54,10 @@ fun HomeUI(
             .padding(8.dp)
         ) {
             items(mascotas) { mascota ->
-                PetCard(mascota)
+                PetCard(
+                        mascota = mascota,
+                        onClick = { onPetClick(mascota.id) }
+                )
             }
         }
     }
