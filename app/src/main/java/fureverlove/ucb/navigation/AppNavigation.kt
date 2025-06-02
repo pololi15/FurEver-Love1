@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import fureverlove.ucb.auth.AuthScreen
+import fureverlove.ucb.favorites.FavoritesScreen
 import fureverlove.ucb.home.HomeUI
 import fureverlove.ucb.pet.PetDetailScreen
 import fureverlove.ucb.registerpet.RegisterPetScreen
@@ -37,7 +38,9 @@ fun AppNavigation() {
                 onAddPet = {
                     navController.navigate(Screen.RegisterPetScreen.route)
                 },
-                onPetClick = { petId -> navController.navigate("petDetail/$petId") }
+                onPetClick = { petId -> navController.navigate("petDetail/$petId") },
+                onGoToFavorites = {navController.navigate("favorites_screen") },
+                navController = navController
             )
         }
 
@@ -57,5 +60,11 @@ fun AppNavigation() {
             PetDetailScreen()
         }
 
+        composable(route = "favorites_screen") {
+            FavoritesScreen(
+                onPetClick = {},
+                navController = navController
+            )
+        }
     }
 }

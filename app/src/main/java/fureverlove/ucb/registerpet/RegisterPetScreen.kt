@@ -32,7 +32,8 @@ fun RegisterPetScreen(
     val mensaje by viewModel.mensaje.collectAsState()
     val estado by viewModel.estado.collectAsState()
     val context = LocalContext.current
-    val genero by remember { mutableStateOf("") }
+    var genero by remember { mutableStateOf("") }
+    var categoria by remember { mutableStateOf("") }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -46,12 +47,15 @@ fun RegisterPetScreen(
         especie = especie,
         ubicacion = ubicacion,
         genero = genero,
+        categoria = categoria,
         imageUri = imageUri.value,
         mensaje = mensaje,
         estado = estado,
         onNombreChange = { nombre = it },
         onEdadChange = { edad = it },
         onEspecieChange = { especie = it },
+        onGeneroChange = { genero = it },
+        onCategoriaChange = { categoria = it },
         onUbicacionChange = { ubicacion = it },
         onSelectImageClick = { imagePickerLauncher.launch("image/*") },
         onGuardarClick = {
@@ -62,7 +66,8 @@ fun RegisterPetScreen(
                     especie = especie,
                     ubicacion = ubicacion,
                     fotoUrl = "", // Se actualizará luego
-                    genero = genero
+                    genero = genero,
+                    categoria = categoria
                 )
                 viewModel.subirImagenYGuardar(imageUri.value!!, mascota, context, onSuccess)
             } else {
@@ -79,12 +84,15 @@ fun RegisterPetScreenContent(
     especie: String,
     ubicacion: String,
     genero: String,
+    categoria: String,
     imageUri: Uri?,
     mensaje: String,
     estado: RegisterPetViewModel.RegisterState,
     onNombreChange: (String) -> Unit,
     onEdadChange: (String) -> Unit,
     onEspecieChange: (String) -> Unit,
+    onGeneroChange: (String) -> Unit,
+    onCategoriaChange: (String) -> Unit,
     onUbicacionChange: (String) -> Unit,
     onSelectImageClick: () -> Unit,
     onGuardarClick: () -> Unit
@@ -103,7 +111,8 @@ fun RegisterPetScreenContent(
             TextField(value = edad, onValueChange = onEdadChange, label = { Text("Edad") })
             TextField(value = especie, onValueChange = onEspecieChange, label = { Text("Especie") })
             TextField(value = ubicacion, onValueChange = onUbicacionChange, label = { Text("Ubicación") })
-            TextField(value = genero, onValueChange = { }, label = { Text("Género") })
+            TextField(value = genero, onValueChange = onGeneroChange, label = { Text("Género") })
+            TextField(value = categoria, onValueChange = onCategoriaChange, label = { Text("Categoría") })
 
             Spacer(Modifier.height(8.dp))
 

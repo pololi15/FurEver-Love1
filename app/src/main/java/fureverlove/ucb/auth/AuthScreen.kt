@@ -1,6 +1,7 @@
 package fureverlove.ucb.auth
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -8,9 +9,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import fureverlove.ucb.R
+
 
 @Composable
 fun AuthScreen(
@@ -21,6 +25,7 @@ fun AuthScreen(
     var isLoginMode by remember { mutableStateOf(true) }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
     val state by viewModel.state.collectAsState()
 
     // Escucha cambios en el estado y muestra notificaciones
@@ -52,6 +57,16 @@ fun AuthScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.ima_login),
+                contentDescription = "Imagen de inicio de sesión",
+                modifier = Modifier
+                    .height(200.dp)
+                    .fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
             Text(
                 text = if (isLoginMode) "Iniciar Sesión" else "Registrarse",
                 style = MaterialTheme.typography.headlineMedium
@@ -112,3 +127,4 @@ fun AuthScreen(
         }
     }
 }
+
