@@ -1,4 +1,4 @@
-package fureverlove.ucb.components
+package fureverlove.ucb.pet
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,12 +11,16 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ucb.domain.model.Mascota
 
+
+
 @Composable
-fun PetCard(
+fun PetDog(
     mascota: Mascota,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
+    if (mascota.especie.lowercase() != "perro") return
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -60,7 +64,6 @@ fun PetCard(
         }
     }
 }
-
 @Composable
 private fun InfoItem(label: String, value: String) {
     Column(modifier = Modifier.padding(vertical = 4.dp)) {

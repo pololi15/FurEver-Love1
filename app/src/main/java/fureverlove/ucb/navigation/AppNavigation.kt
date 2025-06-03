@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import fureverlove.ucb.auth.AuthScreen
 import fureverlove.ucb.favorites.FavoritesScreen
 import fureverlove.ucb.home.HomeUI
+//import fureverlove.ucb.pet.PetCategoryScreen
 import fureverlove.ucb.pet.PetDetailScreen
 import fureverlove.ucb.registerpet.RegisterPetScreen
 
@@ -48,16 +49,20 @@ fun AppNavigation() {
             RegisterPetScreen(
                 onSuccess = {
                     navController.navigate(Screen.HomeScreen.route) {
-                        popUpTo(Screen.RegisterPetScreen.route) { inclusive = true }
+                        popUpTo(Screen.HomeScreen.route) { inclusive = false }
                     }
+                },
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }
+
         composable(
             route = "petDetail/{petId}",
             arguments = listOf(navArgument("petId") { type = NavType.StringType })
         ) {
-            PetDetailScreen()
+            PetDetailScreen(navController = navController)
         }
 
         composable(route = "favorites_screen") {
@@ -66,5 +71,7 @@ fun AppNavigation() {
                 navController = navController
             )
         }
-    }
+
+
+   }
 }

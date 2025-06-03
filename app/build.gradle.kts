@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
     implementation(libs.firebase.storage.ktx)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -94,8 +95,10 @@ dependencies {
 
     implementation(libs.firebase.analytics.ktx)
 
-
     implementation (libs.google.firebase.firestore.ktx)
+
+    implementation("com.google.maps.android:maps-compose:4.3.2")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     implementation(project(":usecases"))
     implementation(project(":domain"))
