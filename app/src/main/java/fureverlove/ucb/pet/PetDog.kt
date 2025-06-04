@@ -19,50 +19,51 @@ fun PetDog(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    if (mascota.especie.lowercase() != "perro") return
-
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
-        )
-    ) {
-        Column {
-            AsyncImage(
-                model = mascota.fotoUrl,
-                contentDescription = mascota.nombre,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
+    if (mascota.especie.lowercase() == "perro") {
+        Card(
+            modifier = modifier
+                .fillMaxWidth()
+                .clickable { onClick() },
+            shape = RoundedCornerShape(16.dp),
+            elevation = CardDefaults.cardElevation(4.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
             )
-
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = mascota.nombre,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface
+        ) {
+            Column {
+                AsyncImage(
+                    model = mascota.fotoUrl,
+                    contentDescription = mascota.nombre,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = mascota.nombre,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        InfoItem("Edad", mascota.edad)
-                        InfoItem("Especie", mascota.especie)
-                    }
-                    Column(modifier = Modifier.weight(1f)) {
-                        InfoItem("Ubicación", mascota.ubicacion)
-                        InfoItem("Género", mascota.genero)
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            InfoItem("Edad", mascota.edad)
+                            InfoItem("Especie", mascota.especie)
+                        }
+                        Column(modifier = Modifier.weight(1f)) {
+                            InfoItem("Ubicación", mascota.ubicacion)
+                            InfoItem("Género", mascota.genero)
+                        }
                     }
                 }
             }
         }
     }
+
 }
 @Composable
 private fun InfoItem(label: String, value: String) {
