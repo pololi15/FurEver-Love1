@@ -28,7 +28,7 @@ class RegisterPetViewModel @Inject constructor(
 
     private val _estado = MutableStateFlow<RegisterState>(RegisterState.Idle)
     val estado: StateFlow<RegisterState> = _estado
-    // esto es interesante, el primer state es mutable pero es privado
+    // esto es interesante, el primer state tiene que ser mutable y privado
     // y el segundo state es inmutable y solo se puede leer para la ui
 
     private val _mensaje = MutableStateFlow("")

@@ -8,7 +8,6 @@ data class Mascota(
     val ubicacion: String = "",
     val fotoUrl: String = "",
     val genero: String = "",
-    val categoria: String = ""
-
-
+    val categoria: String = "",
+    val telefono: String =""
 )

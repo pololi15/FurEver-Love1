@@ -42,6 +42,7 @@ fun RegisterPetScreen(
     var longitud by remember { mutableStateOf(0.0) }
     var genero by remember { mutableStateOf("") }
     var categoria by remember { mutableStateOf("") }
+    var telefono by remember { mutableStateOf("") }
     val imageUri = remember { mutableStateOf<Uri?>(null) }
     val mensaje by viewModel.mensaje.collectAsState()
     val estado by viewModel.estado.collectAsState()
@@ -67,6 +68,7 @@ fun RegisterPetScreen(
                 ubicacion = ubicacion,
                 genero = genero,
                 categoria = categoria,
+                telefono = telefono,
                 imageUri = imageUri.value,
                 mensaje = mensaje,
                 estado = estado,
@@ -75,6 +77,7 @@ fun RegisterPetScreen(
                 onEspecieChange = { especie = it },
                 onGeneroChange = { genero = it },
                 onCategoriaChange = { categoria = it },
+                onTelefonoChange = { telefono = it },
                 onUbicacionChange = { ubicacion = it },
                 onSelectImageClick = { imagePickerLauncher.launch("image/*") },
                 onGuardarClick = {
@@ -84,9 +87,10 @@ fun RegisterPetScreen(
                             edad = edad,
                             especie = especie,
                             ubicacion = ubicacion,
-                            fotoUrl = "", // se actualizará luego
+                            fotoUrl = "",
                             genero = genero,
-                            categoria = categoria
+                            categoria = categoria,
+                            telefono = telefono
                         )
                         viewModel.subirImagenYGuardar(imageUri.value!!, mascota, context, onSuccess)
                     } else {
@@ -111,6 +115,7 @@ fun RegisterPetScreenContent(
     ubicacion: String,
     genero: String,
     categoria: String,
+    telefono: String,
     imageUri: Uri?,
     mensaje: String,
     estado: RegisterPetViewModel.RegisterState,
@@ -119,6 +124,7 @@ fun RegisterPetScreenContent(
     onEspecieChange: (String) -> Unit,
     onGeneroChange: (String) -> Unit,
     onCategoriaChange: (String) -> Unit,
+    onTelefonoChange: (String) -> Unit,
     onUbicacionChange: (String) -> Unit,
     onSelectImageClick: () -> Unit,
     onGuardarClick: () -> Unit,
@@ -215,6 +221,13 @@ fun RegisterPetScreenContent(
                 value = categoria,
                 onValueChange = onCategoriaChange,
                 label = { Text("Categoría") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            TextField(
+                value = telefono,
+                onValueChange = onTelefonoChange,
+                label = { Text("Telefono") },
                 modifier = Modifier.fillMaxWidth()
             )
 
