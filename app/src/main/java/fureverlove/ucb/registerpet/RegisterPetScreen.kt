@@ -18,15 +18,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.ucb.domain.model.Mascota
 import fureverlove.ucb.components.TopBarWithBack
 import fureverlove.ucb.home.FondoConPatitas
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.Marker
+import fureverlove.ucb.components.obtenerNombreUbicacion
+import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterPetScreen(
@@ -38,8 +39,8 @@ fun RegisterPetScreen(
     var edad by remember { mutableStateOf("") }
     var especie by remember { mutableStateOf("") }
     var ubicacion by remember { mutableStateOf("") }
-    var latitud by remember { mutableStateOf(0.0) }
-    var longitud by remember { mutableStateOf(0.0) }
+    var latitud by remember { mutableStateOf(-16.5000) }
+    var longitud by remember { mutableStateOf(-68.1500) }
     var genero by remember { mutableStateOf("") }
     var categoria by remember { mutableStateOf("") }
     var telefono by remember { mutableStateOf("") }
@@ -52,6 +53,12 @@ fun RegisterPetScreen(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         imageUri.value = uri
+    }
+    // Efecto para actualizar la ubicación cuando cambian las coordenadas
+    LaunchedEffect(latitud, longitud) {
+        if (latitud != -16.5000 && longitud != -68.1500) { // Valores iniciales
+            ubicacion = obtenerNombreUbicacion(context, latitud, longitud)
+        }
     }
 
     FondoConPatitas {
@@ -72,6 +79,8 @@ fun RegisterPetScreen(
                 imageUri = imageUri.value,
                 mensaje = mensaje,
                 estado = estado,
+                latitud = latitud,
+                longitud = longitud,
                 onNombreChange = { nombre = it },
                 onEdadChange = { edad = it },
                 onEspecieChange = { especie = it },
@@ -100,7 +109,7 @@ fun RegisterPetScreen(
                 onMapClick = { lat, lon ->
                     latitud = lat
                     longitud = lon
-                    ubicacion = "$lat, $lon"
+                    ubicacion = "Buscando dirección..."
                 }
             )
         }
@@ -119,6 +128,8 @@ fun RegisterPetScreenContent(
     imageUri: Uri?,
     mensaje: String,
     estado: RegisterPetViewModel.RegisterState,
+    latitud: Double,
+    longitud: Double,
     onNombreChange: (String) -> Unit,
     onEdadChange: (String) -> Unit,
     onEspecieChange: (String) -> Unit,
@@ -174,37 +185,40 @@ fun RegisterPetScreenContent(
                 value = ubicacion,
                 onValueChange = onUbicacionChange,
                 label = { Text("Ubicación") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = false // Desactivamos la edición manual, ya que se selecciona con el mapa
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text("Selecciona una ubicación en el mapa", style = MaterialTheme.typography.labelMedium)
 
+            val selectedPosition = LatLng(latitud, longitud)
+            val cameraPositionState = rememberCameraPositionState {
+                position = CameraPosition.fromLatLngZoom(selectedPosition, 12f)
+            }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
             ) {
-                var selectedPosition by remember { mutableStateOf(LatLng( -16.5000, -68.1500)) } // Coordenada predeterminada
-
                 GoogleMap(
-                    modifier = Modifier.matchParentSize(),
+                    modifier = Modifier.fillMaxSize(),
                     cameraPositionState = rememberCameraPositionState {
-                        position = CameraPosition.fromLatLngZoom(selectedPosition, 12f)
+                        position = CameraPosition.fromLatLngZoom(LatLng(latitud, longitud), 12f)
                     },
                     onMapClick = { latLng ->
-                        selectedPosition = latLng
                         onMapClick(latLng.latitude, latLng.longitude)
                     }
                 ) {
                     Marker(
-                        state = MarkerState(position = selectedPosition),
+                        state = MarkerState(position = LatLng(latitud, longitud)),
                         title = "Ubicación seleccionada"
                     )
                 }
-            }
 
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -224,10 +238,12 @@ fun RegisterPetScreenContent(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
+
             TextField(
                 value = telefono,
                 onValueChange = onTelefonoChange,
-                label = { Text("Telefono") },
+                label = { Text("Teléfono") },
                 modifier = Modifier.fillMaxWidth()
             )
 

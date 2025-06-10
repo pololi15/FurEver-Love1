@@ -41,3 +41,13 @@ suspend fun obtenerUbicacionActual(context: Context): String? {
 
     return "Ubicación no disponible"
 }
+suspend fun obtenerNombreUbicacion(context: Context, latitud: Double, longitud: Double): String {
+    val geocoder = Geocoder(context, Locale.getDefault())
+    return try {
+        val direcciones = geocoder.getFromLocation(latitud, longitud, 1)
+        val direccion = direcciones?.firstOrNull()
+        direccion?.getAddressLine(0) ?: "Dirección desconocida"
+    } catch (e: Exception) {
+        "Error obteniendo dirección"
+    }
+}

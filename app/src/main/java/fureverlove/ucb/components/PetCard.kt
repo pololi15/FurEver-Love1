@@ -53,7 +53,7 @@ fun PetCard(
                     }
                     Column(modifier = Modifier.weight(1f)) {
                         InfoItem("Ubicación", mascota.ubicacion)
-                        InfoItem("Género", mascota.genero)
+                         InfoItem("Género", mascota.genero)
                     }
                 }
             }
