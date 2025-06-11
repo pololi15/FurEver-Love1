@@ -18,6 +18,9 @@ class HomeViewModel @Inject constructor(
     private val _mascotas = MutableStateFlow<List<Mascota>>(emptyList())
     val mascotas: StateFlow<List<Mascota>> = _mascotas
 
+    private val _favoritos = MutableStateFlow<List<String>>(emptyList())
+    val favoritos: StateFlow<List<String>> = _favoritos
+
     init {
         cargarMascotas()
     }
@@ -26,5 +29,15 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _mascotas.value = repo.obtenerMascotas()
         }
+    }
+
+    fun toggleFavorite(mascotaId: String) {
+        val current = _favoritos.value.toMutableList()
+        if (current.contains(mascotaId)) {
+            current.remove(mascotaId)
+        } else {
+            current.add(mascotaId)
+        }
+        _favoritos.value = current
     }
 }

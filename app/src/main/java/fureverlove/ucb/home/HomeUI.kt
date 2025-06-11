@@ -49,11 +49,11 @@ fun HomeUI(
     onCategoryClick: (String) -> Unit = {}
 ) {
     val mascotas by viewModel.mascotas.collectAsState()
+    val favoritos by viewModel.favoritos.collectAsState()
     var selectedCategory by remember { mutableStateOf("todos") }
     val context = LocalContext.current
     var showPermissionDialog by remember { mutableStateOf(false) }
 
-    // Lanzador para solicitud de permisos
     val locationPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -62,7 +62,6 @@ fun HomeUI(
         }
     }
 
-    // Verificar permisos al iniciar
     LaunchedEffect(Unit) {
         val hasPermission = ContextCompat.checkSelfPermission(
             context,
@@ -74,7 +73,6 @@ fun HomeUI(
         }
     }
 
-    // Diálogo para explicar necesidad de permisos
     if (showPermissionDialog) {
         AlertDialog(
             onDismissRequest = { showPermissionDialog = false },
@@ -105,7 +103,12 @@ fun HomeUI(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Mascotas en adopción") },
+                title = {
+                    Text(
+                        text = "Mascotas en adopción",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 actions = {
                     IconButton(onClick = {
                         FirebaseAuth.getInstance().signOut()
@@ -125,7 +128,7 @@ fun HomeUI(
                 .padding(padding)
                 .padding(8.dp)
         ) {
-            // Encabezado con ubicación dinámica
+            // Ciudad y zona horaria
             item {
                 Row(
                     modifier = Modifier
@@ -154,7 +157,7 @@ fun HomeUI(
 
             item { Spacer(modifier = Modifier.height(8.dp)) }
 
-            // Banner promocional
+            // Banner
             item {
                 Box(
                     modifier = Modifier
@@ -175,7 +178,7 @@ fun HomeUI(
                             onClick = onAddPet,
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD600))
                         ) {
-                            Text("DAR EN ADOPCIÓN")
+                            Text("REGISTRAR MASCOTA")
                         }
                     }
                 }
@@ -224,34 +227,37 @@ fun HomeUI(
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            // Lista de mascotas
-            item {
-                Text(
-                    "Mascotas en adopción",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-            }
-
-            // Filtrado por categoría
+            // Filtrar por especie
             val filteredMascotas = when (selectedCategory) {
                 "perro" -> mascotas.filter { it.especie.equals("perro", ignoreCase = true) }
                 "gato" -> mascotas.filter { it.especie.equals("gato", ignoreCase = true) }
                 else -> mascotas
             }
 
+            // Mostrar mascotas
             items(filteredMascotas) { mascota ->
-                when (selectedCategory) {
-                    "perro" -> PetDog(mascota = mascota) { onPetClick(mascota.id) }
-                    "gato" -> PetCat(mascota = mascota) { onPetClick(mascota.id) }
-                    else -> {
-                        if (mascota.especie.equals("perro", ignoreCase = true)) {
-                            PetDog(mascota = mascota) { onPetClick(mascota.id) }
-                        } else if (mascota.especie.equals("gato", ignoreCase = true)) {
-                            PetCat(mascota = mascota) { onPetClick(mascota.id) }
-                        }
+                val isFavorite = favoritos.contains(mascota.id)
+                val onToggleFavorite = { viewModel.toggleFavorite(mascota.id) }
+
+                when {
+                    mascota.especie.equals("perro", ignoreCase = true) -> {
+                        PetDog(
+                            mascota = mascota,
+                            isFavorite = isFavorite,
+                            onFavoriteClick = onToggleFavorite,
+                            onClick = { onPetClick(mascota.id) }
+                        )
+                    }
+                    mascota.especie.equals("gato", ignoreCase = true) -> {
+                        PetCat(
+                            mascota = mascota,
+                            isFavorite = isFavorite,
+                            onFavoriteClick = onToggleFavorite,
+                            onClick = { onPetClick(mascota.id) }
+                        )
                     }
                 }
+
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }

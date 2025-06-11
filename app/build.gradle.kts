@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "fureverlove.ucb"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "fureverlove.ucb"
@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.firebase.storage.ktx)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.ui.text.google.fonts)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -98,7 +99,11 @@ dependencies {
     implementation (libs.google.firebase.firestore.ktx)
 
     implementation("com.google.maps.android:maps-compose:4.3.2")
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
+
+    implementation ("androidx.core:core-ktx:1.16.0")
+
+    implementation ("androidx.core:core-ktx:1.12.0")
 
     implementation(project(":usecases"))
     implementation(project(":domain"))
