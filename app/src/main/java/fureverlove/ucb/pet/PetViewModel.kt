@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// interesante, savedStateHandle se usa para guardary recuperar datos en el estado guardado
-
 @HiltViewModel
 class PetViewModel @Inject constructor(
     private val repository: IMascotaRepository,
@@ -21,7 +19,8 @@ class PetViewModel @Inject constructor(
 
     private val _mascota = MutableStateFlow(Mascota())
     val mascota = _mascota
-    val id = _mascota.value.id
+
+    //val id = _mascota.value.id
     init {
         val id = savedStateHandle.get<String>("petId")
         if (id != null) {
@@ -35,3 +34,6 @@ class PetViewModel @Inject constructor(
         }
     }
 }
+
+
+// interesante, savedStateHandle se usa para guardar y recuperar datos en el estado guardado

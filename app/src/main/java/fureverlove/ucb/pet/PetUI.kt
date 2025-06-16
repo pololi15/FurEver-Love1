@@ -94,8 +94,4 @@ fun MascotaDetailContent(mascota: Mascota) {
             Text("Contactar")
         }
     }
-
-
-
-
 }

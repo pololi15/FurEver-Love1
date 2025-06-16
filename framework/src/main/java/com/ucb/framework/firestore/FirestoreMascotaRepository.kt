@@ -5,6 +5,8 @@ import com.ucb.domain.model.Mascota
 import kotlinx.coroutines.tasks.await
 import com.ucb.data.mascota.IMascotaRepository
 import javax.inject.Inject
+import  com.google.firebase.auth.FirebaseAuth
+
 
 class FirestoreMascotaRepository @Inject constructor(): IMascotaRepository {
 
@@ -26,5 +28,44 @@ class FirestoreMascotaRepository @Inject constructor(): IMascotaRepository {
      override suspend fun obtenerMascota(id: String): Mascota? {
         return mascotasRef.document(id).get().await().toObject(Mascota::class.java)
     }
+
+    //Metodos para Favoritos, con el id de usuarios
+    override suspend fun obtenerFavoritos(uid: String): List<Mascota> {
+        val favoritosRef = db.collection("usuarios")
+            .document(uid)
+            .collection("favoritos")
+
+        val favoritosSnapshot = favoritosRef.get().await()
+        val favoritosIds = favoritosSnapshot.documents.map { it.id }
+
+        val mascotas = mutableListOf<Mascota>()
+        for (id in favoritosIds) {
+            val doc = mascotasRef.document(id).get().await()
+            doc.toObject(Mascota::class.java)?.copy(id = doc.id)?.let {
+                mascotas.add(it)
+            }
+        }
+
+        return mascotas
+    }
+
+    override suspend fun agregarFavorito(uid: String, mascota: Mascota) {
+        val favoritosRef = db.collection("usuarios")
+            .document(uid)
+            .collection("favoritos")
+
+        favoritosRef.document(mascota.id).set(
+            mapOf("timestamp" to com.google.firebase.firestore.FieldValue.serverTimestamp())
+        ).await()
+    }
+
+    override suspend fun eliminarFavorito(uid: String, mascota: Mascota) {
+        val favoritosRef = db.collection("usuarios")
+            .document(uid)
+            .collection("favoritos")
+
+        favoritosRef.document(mascota.id).delete().await()
+    }
+
 
 }

@@ -4,9 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -14,23 +12,22 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fureverlove.ucb.components.PetCard
 import fureverlove.ucb.components.TopBarWithBack
-import fureverlove.ucb.home.FondoConPatitas
-import fureverlove.ucb.home.HomeViewModel
 import fureverlove.ucb.navigation.BottomNavigationBar
+import fureverlove.ucb.home.FondoConPatitas
+import com.ucb.domain.model.Mascota
 
 @Composable
 fun FavoritesScreen(
     navController: NavController,
     onPetClick: (String) -> Unit,
-    homeViewModel: HomeViewModel = hiltViewModel(),
     favoriteViewModel: FavoriteViewModel = hiltViewModel()
 ) {
-    val allPets by homeViewModel.mascotas.collectAsState()
-    val favoriteIds by favoriteViewModel.favoriteIds.collectAsState()
+    val favoritos by favoriteViewModel.favoritePets.collectAsState()
 
-    val favoritePets = allPets.filter { pet ->
-        favoriteIds.contains(pet.id)
+    LaunchedEffect(Unit) {
+        favoriteViewModel.loadFavorites()
     }
+
     FondoConPatitas {
         Scaffold(
             topBar = {
@@ -43,7 +40,7 @@ fun FavoritesScreen(
                 BottomNavigationBar(navController)
             }
         ) { padding ->
-            if (favoritePets.isEmpty()) {
+            if (favoritos.isEmpty()) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -59,13 +56,13 @@ fun FavoritesScreen(
                         .padding(padding)
                         .padding(8.dp)
                 ) {
-                    items(favoritePets) { mascota ->
+                    items(favoritos) { mascota ->
                         PetCard(
                             mascota = mascota,
                             isFavorite = true,
                             onClick = { onPetClick(mascota.id) },
                             onFavoriteClick = {
-                                favoriteViewModel.toggleFavorite(mascota.id)
+                                favoriteViewModel.toggleFavorite(mascota)
                             }
                         )
                     }
@@ -74,3 +71,4 @@ fun FavoritesScreen(
         }
     }
 }
+

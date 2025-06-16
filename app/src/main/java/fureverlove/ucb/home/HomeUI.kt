@@ -147,9 +147,7 @@ fun HomeUI(
                         Spacer(modifier = Modifier.width(4.dp))
                         CiudadYZonaHoraria(
                             modifier = Modifier.weight(1f),
-                            onError = { error ->
-                                Log.e("HomeUI", "Error ubicación: $error")
-                            }
+                            onError = { error -> Log.e("HomeUI", "Error ubicación: $error") }
                         )
                     }
                 }
@@ -227,7 +225,7 @@ fun HomeUI(
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            // Filtrar por especie
+            // Filtrar mascotas
             val filteredMascotas = when (selectedCategory) {
                 "perro" -> mascotas.filter { it.especie.equals("perro", ignoreCase = true) }
                 "gato" -> mascotas.filter { it.especie.equals("gato", ignoreCase = true) }
