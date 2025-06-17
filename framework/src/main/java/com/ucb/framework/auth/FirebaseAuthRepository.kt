@@ -1,6 +1,6 @@
 package com.ucb.framework.auth
 
-import  com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth
 import com.ucb.data.auth.IAuthRepository
 import com.ucb.domain.model.AuthUser
 import com.ucb.data.util.Result

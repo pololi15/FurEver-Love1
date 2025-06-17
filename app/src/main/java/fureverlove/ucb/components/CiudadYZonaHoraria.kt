@@ -15,8 +15,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun CiudadYZonaHoraria(
     modifier: Modifier = Modifier,
-    onError: (String) -> Unit = {},
-    showIcon: Boolean = true
+    onError: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
     var ubicacion by remember { mutableStateOf("Obteniendo ubicación...") }

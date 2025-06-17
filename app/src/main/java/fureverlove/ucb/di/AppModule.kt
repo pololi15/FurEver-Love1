@@ -12,7 +12,6 @@ import com.ucb.usecases.SavePet
 import com.ucb.usecases.LoginUser
 import com.ucb.usecases.RegisterUser
 import com.ucb.usecases.RemoveFavoritePet
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,9 +38,6 @@ object AppModule {
     @Singleton
     fun provideMascotaRepository(): IMascotaRepository = FirestoreMascotaRepository()
 
-
-//    Refactorizando codigo para que use los casos de uso
-    //falta utilizarlos
     @Provides
     @Singleton
     fun provideGetPets(repo: IMascotaRepository): GetPets = GetPets(repo)

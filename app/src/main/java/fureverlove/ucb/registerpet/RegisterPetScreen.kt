@@ -27,7 +27,6 @@ import com.ucb.domain.model.Mascota
 import fureverlove.ucb.components.TopBarWithBack
 import fureverlove.ucb.home.FondoConPatitas
 import fureverlove.ucb.components.obtenerNombreUbicacion
-import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterPetScreen(
@@ -311,24 +310,3 @@ fun RegisterPetScreenContent(
         }
     }
 }
-
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun RegisterPetScreenPreview() {
-    RegisterPetScreenContent(
-        nombre = "Firulais",
-        edad = "3",
-        especie = "Perro",
-        ubicacion = "La Paz",
-        imageUri = Uri.parse("https://placekitten.com/400/200"), // Simulación de imagen
-        mensaje = "Mascota registrada correctamente",
-        onNombreChange = {},
-        onEdadChange = {},
-        onEspecieChange = {},
-        onUbicacionChange = {},
-        onSelectImageClick = {},
-        onGuardarClick = {}
-    )
-}*/

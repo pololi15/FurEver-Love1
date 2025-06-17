@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.storage.FirebaseStorage
-import com.ucb.data.mascota.IMascotaRepository
 import com.ucb.domain.model.Mascota
 import com.ucb.usecases.SavePet
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterPetViewModel @Inject constructor(
-   // private val repository: IMascotaRepository//FirestoreMascotaRepository
     private val savePet: SavePet
     ) : ViewModel() {
     sealed class RegisterState {
@@ -30,8 +28,6 @@ class RegisterPetViewModel @Inject constructor(
 
     private val _estado = MutableStateFlow<RegisterState>(RegisterState.Idle)
     val estado: StateFlow<RegisterState> = _estado
-    // esto es interesante, el primer state tiene que ser mutable y privado
-    // y el segundo state es inmutable y solo se puede leer para la ui
 
     private val _mensaje = MutableStateFlow("")
     val mensaje: StateFlow<String> = _mensaje

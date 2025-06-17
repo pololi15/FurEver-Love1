@@ -14,7 +14,6 @@ import fureverlove.ucb.components.PetCard
 import fureverlove.ucb.components.TopBarWithBack
 import fureverlove.ucb.navigation.BottomNavigationBar
 import fureverlove.ucb.home.FondoConPatitas
-import com.ucb.domain.model.Mascota
 
 @Composable
 fun FavoritesScreen(

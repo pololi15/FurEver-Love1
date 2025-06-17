@@ -1,6 +1,7 @@
 package fureverlove.ucb.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -21,7 +22,8 @@ fun TopBarWithBack(
         title = { Text(title) },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+//                Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")//ya no usamos esta pq estaba obsoleto y capaz a furuto molestaba
             }
         },
         modifier = Modifier,

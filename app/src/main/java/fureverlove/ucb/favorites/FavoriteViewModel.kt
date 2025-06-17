@@ -46,6 +46,4 @@ class FavoriteViewModel @Inject constructor(
             }
         }
     }
-
-    fun isFavorite(id: String): Boolean = _favoritePets.value.any { it.id == id }
 }
