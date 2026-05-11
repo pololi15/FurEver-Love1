@@ -1,5 +1,6 @@
 package fureverlove.ucb.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ucb.domain.model.Mascota
@@ -36,9 +37,20 @@ class HomeViewModel @Inject constructor(
     }
 
     fun cargarMascotas() {
-        viewModelScope.launch {
+        /*viewModelScope.launch {
             _mascotas.value = getPets.invoke()
+        }*/
+        viewModelScope.launch {
+            try {
+                val lista = getPets.invoke()
+                Log.d("DEBUG_PETS", "Mascotas recibidas: ${lista.size}")
+                _mascotas.value = lista
+            } catch (e: Exception) {
+                Log.e("DEBUG_PETS", "Error al obtener mascotas: ${e.message}")
+            }
         }
+
+
     }
 
     fun cargarFavoritos() {

@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,10 +33,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import fureverlove.ucb.components.CiudadYZonaHoraria
+import fureverlove.ucb.components.PetCard
 import fureverlove.ucb.navigation.BottomNavigationBar
-import com.ucb.domain.model.Mascota
-import fureverlove.ucb.pet.PetCat
-import fureverlove.ucb.pet.PetDog
+
+// Paleta de colores consistente
+val BlueMain = Color(0xFF439EF4)
+val YellowAccent = Color(0xFFFFD600)
+val BackgroundColor = Color(0xFFF8FAFC)
+val MainText = Color(0xFF2D3748)
+val GrayLight = Color(0xFFF1F5F9)
 
 private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
 
@@ -76,7 +84,7 @@ fun HomeUI(
     if (showPermissionDialog) {
         AlertDialog(
             onDismissRequest = { showPermissionDialog = false },
-            title = { Text("Permiso requerido") },
+            title = { Text("Permiso requerido", fontWeight = FontWeight.Bold) },
             text = { Text("Para mostrar mascotas cerca de ti, necesitamos acceso a tu ubicación") },
             confirmButton = {
                 Button(onClick = {
@@ -105,8 +113,10 @@ fun HomeUI(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Mascotas en adopción",
-                        style = MaterialTheme.typography.titleLarge
+                        text = "FurEver Love",
+                        color = BlueMain,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp
                     )
                 },
                 actions = {
@@ -114,140 +124,155 @@ fun HomeUI(
                         FirebaseAuth.getInstance().signOut()
                         onLogout()
                     }) {
-                        Icon(Icons.Default.ExitToApp, contentDescription = "Cerrar sesión")
+                        Icon(Icons.Default.ExitToApp, contentDescription = "Cerrar sesión", tint = MainText)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
             )
         },
         bottomBar = {
             BottomNavigationBar(navController)
-        }
+        },
+        containerColor = BackgroundColor
     ) { padding ->
         LazyColumn(
             modifier = Modifier
                 .padding(padding)
-                .padding(8.dp)
+                .fillMaxSize()
         ) {
-            // Ciudad y zona horaria
+            // Ubicación y Ciudad
             item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .padding(horizontal = 20.dp, vertical = 12.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color.White)
+                        .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.LocationOn,
-                            contentDescription = "Ubicación",
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        CiudadYZonaHoraria(
-                            modifier = Modifier.weight(1f),
-                            onError = { error -> Log.e("HomeUI", "Error ubicación: $error") }
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Default.LocationOn,
+                        contentDescription = "Ubicación",
+                        tint = BlueMain,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    CiudadYZonaHoraria(
+                        modifier = Modifier.weight(1f),
+                        onError = { error -> Log.e("HomeUI", "Error ubicación: $error") }
+                    )
                 }
             }
 
-            item { Spacer(modifier = Modifier.height(8.dp)) }
-
-            // Banner
+            // Banner mejorado
             item {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFF439EF4))
-                        .padding(16.dp)
+                        .padding(horizontal = 20.dp)
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(BlueMain)
+                        .padding(24.dp)
                 ) {
                     Column {
                         Text(
-                            "Una patita amiga\nnecesita de ti.",
+                            "¡Una patita amiga\nte está esperando!",
                             fontSize = 20.sp,
                             color = Color.White,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.ExtraBold,
+                            lineHeight = 28.sp
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         Button(
                             onClick = onAddPet,
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD600))
+                            colors = ButtonDefaults.buttonColors(containerColor = YellowAccent),
+                            shape = RoundedCornerShape(12.dp),
+                            elevation = ButtonDefaults.buttonElevation(4.dp)
                         ) {
-                            Text("REGISTRAR MASCOTA")
+                            Text("REGISTRAR MASCOTA", color = Color.Black, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
             }
 
-            item { Spacer(modifier = Modifier.height(16.dp)) }
+            item { Spacer(modifier = Modifier.height(24.dp)) }
 
-            // Categorías
+            // Sección de Categorías
+            item {
+                Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                    Text(
+                        "Categorías",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MainText
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        CategoryItem(
+                            label = "Todos",
+                            isSelected = selectedCategory == "todos",
+                            onClick = { selectedCategory = "todos" },
+                            modifier = Modifier.weight(1f)
+                        )
+                        CategoryItem(
+                            label = "Canes",
+                            isSelected = selectedCategory == "perro",
+                            onClick = { 
+                                selectedCategory = "perro"
+                                onCategoryClick("canes")
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                        CategoryItem(
+                            label = "Gatos",
+                            isSelected = selectedCategory == "gato",
+                            onClick = { 
+                                selectedCategory = "gato"
+                                onCategoryClick("gatos")
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Título de lista
             item {
                 Text(
-                    "Categorías",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    "Mascotas cerca de ti",
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MainText
                 )
             }
 
-            item {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Button(
-                        onClick = {
-                            selectedCategory = "perro"
-                            onCategoryClick("canes")
-                        },
-                        modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF50E3C2)),
-                        shape = RoundedCornerShape(16.dp)
-                    ) {
-                        Text("CANES")
-                    }
-
-                    Spacer(modifier = Modifier.width(8.dp))
-
-                    Button(
-                        onClick = {
-                            selectedCategory = "gato"
-                            onCategoryClick("gatos")
-                        },
-                        modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726)),
-                        shape = RoundedCornerShape(16.dp)
-                    ) {
-                        Text("GATOS")
-                    }
-                }
-            }
-
-            item { Spacer(modifier = Modifier.height(16.dp)) }
-
-            // Filtrar mascotas
+            // Filtrar y Listar mascotas
             val filteredMascotas = when (selectedCategory) {
-                "perro" -> mascotas.filter { it.especie.equals("perro", ignoreCase = true) }
-                "gato" -> mascotas.filter { it.especie.equals("gato", ignoreCase = true) }
+                "perro" -> mascotas.filter { it.especie.trim().contains("perro", ignoreCase = true) || it.especie.trim().contains("can", ignoreCase = true) }
+                "gato" -> mascotas.filter { it.especie.trim().contains("gato", ignoreCase = true) || it.especie.trim().contains("felino", ignoreCase = true) }
                 else -> mascotas
             }
 
-            // Mostrar mascotas
-            items(filteredMascotas) { mascota ->
-                val isFavorite = favoritos.contains(mascota.id)
-                val onToggleFavorite = { viewModel.toggleFavorite(mascota.id) }
-
-                when {
-                    mascota.especie.equals("perro", ignoreCase = true) -> {
-                        PetDog(
-                            mascota = mascota,
-                            isFavorite = isFavorite,
-                            onFavoriteClick = onToggleFavorite,
-                            onClick = { onPetClick(mascota.id) }
-                        )
+            if (filteredMascotas.isEmpty()) {
+                item {
+                    Box(modifier = Modifier.fillMaxWidth().padding(40.dp), contentAlignment = Alignment.Center) {
+                        Text("No se encontraron mascotas en esta categoría", color = Color.Gray)
                     }
-                    mascota.especie.equals("gato", ignoreCase = true) -> {
-                        PetCat(
+                }
+            } else {
+                items(filteredMascotas) { mascota ->
+                    val isFavorite = favoritos.contains(mascota.id)
+                    val onToggleFavorite = { viewModel.toggleFavorite(mascota.id) }
+
+                    Box(modifier = Modifier.padding(horizontal = 20.dp)) {
+                        PetCard(
                             mascota = mascota,
                             isFavorite = isFavorite,
                             onFavoriteClick = onToggleFavorite,
@@ -255,9 +280,58 @@ fun HomeUI(
                         )
                     }
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
             }
+            
+            item { Spacer(modifier = Modifier.height(20.dp)) }
         }
     }
+}
+
+@Composable
+fun CategoryItem(
+    label: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val backgroundColor = if (isSelected) BlueMain else Color.White
+    val textColor = if (isSelected) Color.White else MainText
+    
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(backgroundColor)
+            .clickable { onClick() }
+            .padding(vertical = 12.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = label,
+            color = textColor,
+            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+            fontSize = 14.sp
+        )
+    }
+}
+
+@Composable
+fun Text(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+    fontSize: androidx.compose.ui.unit.TextUnit = androidx.compose.ui.unit.TextUnit.Unspecified,
+    fontWeight: FontWeight? = null,
+    lineHeight: androidx.compose.ui.unit.TextUnit = androidx.compose.ui.unit.TextUnit.Unspecified,
+    style: androidx.compose.ui.text.TextStyle = LocalTextStyle.current
+) {
+    androidx.compose.material3.Text(
+        text = text,
+        modifier = modifier,
+        color = color,
+        fontSize = fontSize,
+        fontWeight = fontWeight,
+        lineHeight = lineHeight,
+        fontFamily = FontFamily.SansSerif,
+        style = style
+    )
 }

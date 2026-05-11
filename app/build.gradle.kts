@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "fureverlove.ucb"
-        minSdk = 34
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.1"
@@ -104,6 +104,9 @@ dependencies {
     implementation ("androidx.core:core-ktx:1.16.0")
 
     implementation ("androidx.core:core-ktx:1.12.0")
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore.ktx)
 
     implementation(project(":usecases"))
     implementation(project(":domain"))
