@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -20,6 +22,18 @@ android {
         versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Defined only in the ignored local.properties file.
+        // Android will embed this value in the APK, so the key must additionally
+        // be restricted by Android application ID and signing-certificate SHA-1.
+        val localProperties = Properties().apply {
+            val localPropertiesFile = rootProject.file("local.properties")
+            if (localPropertiesFile.exists()) {
+                localPropertiesFile.inputStream().use(::load)
+            }
+        }
+        val mapsApiKey = localProperties.getProperty("MAPS_API_KEY", "")
+        resValue("string", "google_maps_api_key", mapsApiKey)
     }
 
     buildTypes {

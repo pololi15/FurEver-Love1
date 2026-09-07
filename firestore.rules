@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Pets are intentionally visible to adopters. Only their creator can
+    // create, update or remove a listing.
+    match /mascotas/{mascotaId} {
+      allow read: if true;
+      allow create: if signedIn()
+                    && request.resource.data.creadorId == request.auth.uid;
+      allow update, delete: if signedIn()
+                            && resource.data.creadorId == request.auth.uid;
+    }
+
+    // A user can only see and change their own favourite IDs.
+    match /usuarios/{userId}/favoritos/{mascotaId} {
+      allow read: if signedIn() && request.auth.uid == userId;
+      allow create, update: if signedIn()
+                            && request.auth.uid == userId
+                            && request.resource.data.keys().hasOnly(['timestamp']);
+      allow delete: if signedIn() && request.auth.uid == userId;
+    }
+
+    // No other user documents are exposed by this app.
+    match /usuarios/{userId} {
+      allow read, write: if false;
+    }
+  }
+}

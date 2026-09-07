@@ -12,7 +12,7 @@
 
     <application
         android:name=".di.MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -22,10 +22,10 @@
         android:theme="@style/Theme.FurEverLove"
         tools:targetApi="31">
 
-        <!-- Meta-datos para API Key de Google Maps (si es necesario) -->
+        <!-- La clave se inyecta desde local.properties y no se versiona. -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCz_ONQVyL31kFTf6IYrufc-BHj_hGAMbo" />
+            android:value="@string/google_maps_api_key" />
 
         <activity
             android:theme="@style/SplashTheme"

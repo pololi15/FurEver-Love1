@@ -9,5 +9,6 @@ data class Mascota(
     val fotoUrl: String = "",
     val genero: String = "",
     val categoria: String = "",
-    val telefono: String =""
+    val telefono: String ="",
+    val creadorId: String = ""
 )

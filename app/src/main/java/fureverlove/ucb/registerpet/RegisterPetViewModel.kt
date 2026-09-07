@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.auth.FirebaseAuth
 import com.ucb.domain.model.Mascota
 import com.ucb.usecases.SavePet
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,13 +38,18 @@ class RegisterPetViewModel @Inject constructor(
             try {
                 _estado.value = RegisterState.Loading
 
+                val userId = FirebaseAuth.getInstance().currentUser?.uid
+                    ?: throw SecurityException("Debes iniciar sesión para publicar una mascota")
                 val storageRef = FirebaseStorage.getInstance().reference
-                val imageRef = storageRef.child("mascotas/${UUID.randomUUID()}.jpg")
+                val imageRef = storageRef.child("mascotas/$userId/${UUID.randomUUID()}.jpg")
 
                 imageRef.putFile(uri).await()
                 val downloadUrl = imageRef.downloadUrl.await()
 
-                val mascotaConImagen = mascota.copy(fotoUrl = downloadUrl.toString())
+                val mascotaConImagen = mascota.copy(
+                    fotoUrl = downloadUrl.toString(),
+                    creadorId = userId
+                )
                 savePet(mascotaConImagen)
 
                 _estado.value = RegisterState.Success

@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Firebase client configuration identifies this Firebase project and contains
+# API keys. Keep each environment's copy local; obtain it from Firebase Console.
+app/google-services.json

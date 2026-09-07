@@ -11,7 +11,8 @@ fun MascotaDTO.toDomain(): Mascota {
         ubicacion = ubicacion,
         fotoUrl = fotoUrl,
         id = "",
-        genero = genero
+        genero = genero,
+        categoria = categoria
     )
 }
 fun Mascota.toEntity(): Mascota {
@@ -21,7 +22,10 @@ fun Mascota.toEntity(): Mascota {
         especie = especie,
         ubicacion = ubicacion,
         fotoUrl = fotoUrl,
-        genero = genero
+        genero = genero,
+        categoria = categoria,
+        telefono = telefono,
+        creadorId = creadorId
     )
 }
 
